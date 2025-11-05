@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Monte Carlo Sharm Resort & Spa — Skyward Travel</title>
+    <link rel="stylesheet" href="/styles/styles.css" />
+  
+    <style>
+      /* Facilities: unified CSS Grid (5 cols desktop, 2 cols mobile), no flex */
+      .booking-facilities .facilities-list {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 12px;
+        margin: 0;
+        padding: 0;
+      }
+      .booking-facilities .facility {
+        display: grid;
+        grid-template-columns: 24px 1fr;
+        align-items: center;
+        gap: 8px;
+        padding: 10px;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        box-sizing: border-box;
+        background: #fff;
+      }
+      .booking-facilities .facility .emoji {
+        font-size: 18px;
+        line-height: 1;
+      }
+      .booking-facilities .facility .label {
+        font-size: 14px;
+      }
+      /* Prevent horizontal scroll by ensuring wrappers are block/visible */
+      .facilities, .facilities-wrapper {
+        display: block !important;
+        overflow-x: visible !important;
+        width: 100% !important;
+      }
+      @media (max-width: 768px) {
+        .booking-facilities .facilities-list {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 10px;
+        }
+      }
+    </style>
+
+  </head>
+  <body>
+    <div id="site-header"></div>
+
+    <main class="container">
+      
+    <nav class="breadcrumb">
+      <a href="/">Home</a>
+      <span class="separator">></span>
+      <a href="/hotels/">Hotels</a>
+      <span class="separator">></span>
+      <span class="current">Monte Carlo Sharm Resort & Spa</span>
+    </nav>
+      
+      <!-- Hotel Header Section -->
+      <section class="booking-header">
+        <div class="hotel-info">
+          <div class="hotel-badges">
+            
+          </div>
+          <h1 class="hotel-title">Monte Carlo Sharm Resort & Spa</h1>
+          
+        </div>
+        
+      </section>
+
+      <!-- Photo Gallery -->
+      
+    <div class="booking-gallery">
+      <div class="main-photo">
+        <img src="/hotels/Monte%20Carlo%20Sharm%20Resort%20%26%20Spa/image/220513016.jpg" alt="Monte Carlo Sharm Resort & Spa" />
+        <button class="photo-count-btn" data-gallery="Monte%20Carlo%20Sharm%20Resort%20%26%20Spa">
+          <i data-lucide="camera"></i>
+          Show all 45 photos
+        </button>
+      </div>
+      <div class="photo-grid">
+        
+          <div class="photo-item">
+            <img src="/hotels/Monte%20Carlo%20Sharm%20Resort%20%26%20Spa/image/231851965.jpg" alt="Monte Carlo Sharm Resort & Spa" />
+          </div>
+        
+          <div class="photo-item">
+            <img src="/hotels/Monte%20Carlo%20Sharm%20Resort%20%26%20Spa/image/242936621.jpg" alt="Monte Carlo Sharm Resort & Spa" />
+          </div>
+        
+          <div class="photo-item">
+            <img src="/hotels/Monte%20Carlo%20Sharm%20Resort%20%26%20Spa/image/420747589.jpg" alt="Monte Carlo Sharm Resort & Spa" />
+          </div>
+        
+          <div class="photo-item">
+            <img src="/hotels/Monte%20Carlo%20Sharm%20Resort%20%26%20Spa/image/420747624.jpg" alt="Monte Carlo Sharm Resort & Spa" />
+          </div>
+        
+      </div>
+    </div>
+
+      <!-- Facilities Section -->
+      
+      <section class="booking-facilities">
+        <div class="container">
+          <h3>Facilities</h3>
+          <div class="facilities-list">
+            <div class="facility"><span class="emoji">🏙︎</span><span class="label">City view</span></div>
+            <div class="facility"><span class="emoji">🏊︎</span><span class="label">Swimming pool</span></div>
+            <div class="facility"><span class="emoji">📶︎</span><span class="label">Free Wifi</span></div>
+            <div class="facility"><span class="emoji">🛁︎</span><span class="label">Bathtub</span></div>
+            <div class="facility"><span class="emoji">❄︎</span><span class="label">Air conditioning</span></div>
+            <div class="facility"><span class="emoji">🛎︎</span><span class="label">24-hour front desk</span></div>
+            <div class="facility"><span class="emoji">🔑︎</span><span class="label">Key card access</span></div>
+            <div class="facility"><span class="emoji">🧹︎</span><span class="label">Daily housekeeping</span></div>
+            <div class="facility"><span class="emoji">🚭︎</span><span class="label">Non-smoking rooms</span></div>
+            <div class="facility"><span class="emoji">🔒︎</span><span class="label">Safe</span></div>
+          </div>
+</div>
+      </section>
+
+      <!-- Main Content -->
+      <section class="booking-content">
+        <div class="content-main">
+          <div class="property-description">
+            <h2>About this property</h2>
+            <p>Set along the shores of Sharm El Sheikh, this resort combines private beach access, multiple outdoor pools and a full‑service spa with a variety of restaurants and bars. Rooms and suites feature Red Sea views and modern amenities, with water sports, family facilities and evening entertainment available on site.</p>
+          </div>
+
+          
+
+          <!-- Additional Amenities -->
+          
+
+          <!-- Room Types -->
+          
+
+          <!-- Check-in/Check-out Information -->
+          
+
+          <!-- Nearby Attractions -->
+          
+
+          <!-- Languages Spoken -->
+          
+
+          <!-- Hotel Policies -->
+          
+        </div>
+      </section>
+    </main>
+
+    <div id="site-footer"></div>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script src="/scripts/main.js"></script>
+  </body>
+</html>

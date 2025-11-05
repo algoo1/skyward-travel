@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>فهرس معارض الفنادق - نظام العرض الشامل</title>
+    
+    <!-- الخطوط -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- أيقونات Lucide -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    
+    <!-- ملفات النظام -->
+    <link rel="stylesheet" href="styles/hotel-gallery.css">
+    <script src="scripts/hotel-config.js"></script>
+    <script src="scripts/hotel-image-gallery.js"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Cairo', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            direction: rtl;
+        }
+        
+        .master-container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .master-header {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+        }
+        
+        .master-header h1 {
+            font-size: 3rem;
+            color: #333;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        
+        .master-header p {
+            font-size: 1.3rem;
+            color: #666;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        .hotels-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .hotel-card {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .hotel-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.15);
+        }
+        
+        .hotel-card h3 {
+            font-size: 1.8rem;
+            color: #333;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .hotel-card p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .hotel-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .view-gallery-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .view-gallery-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        .gallery-container {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            margin-top: 30px;
+            display: none;
+        }
+        
+        .gallery-container.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .back-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            background: #c82333;
+            transform: translateY(-2px);
+        }
+        
+        @media (max-width: 768px) {
+            .master-header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .master-header p {
+                font-size: 1.1rem;
+            }
+            
+            .hotels-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .hotel-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="master-container">
+        <!-- رأس الصفحة -->
+        <div class="master-header">
+            <h1>🏨 فهرس معارض الفنادق</h1>
+            <p>نظام شامل لعرض وإدارة صور جميع الفنادق مع تقنيات متقدمة للتنقل والعرض</p>
+        </div>
+        
+        <!-- شبكة الفنادق -->
+        <div id="hotels-overview" class="hotels-grid">
+            <!-- سيتم ملؤها ديناميكياً -->
+        </div>
+        
+        <!-- حاوي المعرض -->
+        <div id="gallery-container" class="gallery-container">
+            <button class="back-btn" onclick="showHotelsOverview()">
+                <i data-lucide="arrow-right"></i>
+                العودة لقائمة الفنادق
+            </button>
+            <div id="current-hotel-gallery"></div>
+        </div>
+    </div>
+
+    <script>
+        let currentGallery = null;
+        
+        // تهيئة الصفحة
+        document.addEventListener('DOMContentLoaded', function() {
+            loadHotelsOverview();
+            
+            // تحديث الأيقونات
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+        });
+        
+        // تحميل نظرة عامة على الفنادق
+        function loadHotelsOverview() {
+            const hotelsGrid = document.getElementById('hotels-overview');
+            const hotels = window.HotelGalleryConfig.hotels;
+            
+            let html = '';
+            
+            Object.keys(hotels).forEach(hotelKey => {
+                const hotel = hotels[hotelKey];
+                html += `
+                    <div class="hotel-card" onclick="showHotelGallery('${hotelKey}')">
+                        <h3>${hotel.name}</h3>
+                        <p>${hotel.description}</p>
+                        
+                        <div class="hotel-stats">
+                            <div class="stat-item">
+                                <div class="stat-number">${hotel.totalImages}</div>
+                                <div class="stat-label">صورة</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">${hotel.featured ? '⭐' : '📷'}</div>
+                                <div class="stat-label">${hotel.featured ? 'مميز' : 'عادي'}</div>
+                            </div>
+                        </div>
+                        
+                        <button class="view-gallery-btn">
+                            <i data-lucide="images"></i>
+                            عرض المعرض
+                        </button>
+                    </div>
+                `;
+            });
+            
+            hotelsGrid.innerHTML = html;
+            
+            // تحديث الأيقونات
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+        }
+        
+        // عرض معرض فندق محدد
+        function showHotelGallery(hotelKey) {
+            const hotelsOverview = document.getElementById('hotels-overview');
+            const galleryContainer = document.getElementById('gallery-container');
+            const galleryDiv = document.getElementById('current-hotel-gallery');
+            
+            // إخفاء نظرة عامة الفنادق
+            hotelsOverview.style.display = 'none';
+            
+            // إظهار حاوي المعرض
+            galleryContainer.classList.add('active');
+            
+            // إنشاء معرض جديد
+            try {
+                currentGallery = new HotelImageGallery(hotelKey, 'current-hotel-gallery');
+                
+                // تحديث الأيقونات
+                setTimeout(() => {
+                    if (typeof lucide !== 'undefined') {
+                        lucide.createIcons();
+                    }
+                }, 1000);
+                
+            } catch (error) {
+                console.error('خطأ في تحميل معرض الفندق:', error);
+                galleryDiv.innerHTML = `
+                    <div class="gallery-error" style="display: block;">
+                        <div class="error-icon">⚠️</div>
+                        <h4>خطأ في تحميل المعرض</h4>
+                        <p class="error-message">فشل في تحميل صور ${hotelKey}</p>
+                        <button class="retry-btn" onclick="showHotelGallery('${hotelKey}')">إعادة المحاولة</button>
+                    </div>
+                `;
+            }
+        }
+        
+        // العودة لنظرة عامة الفنادق
+        function showHotelsOverview() {
+            const hotelsOverview = document.getElementById('hotels-overview');
+            const galleryContainer = document.getElementById('gallery-container');
+            
+            // إظهار نظرة عامة الفنادق
+            hotelsOverview.style.display = 'grid';
+            
+            // إخفاء حاوي المعرض
+            galleryContainer.classList.remove('active');
+            
+            // تنظيف المعرض الحالي
+            if (currentGallery) {
+                currentGallery = null;
+            }
+            
+            // تحديث الأيقونات
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+        }
+    </script>
+</body>
+</html>

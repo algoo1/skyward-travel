@@ -1,0 +1,64 @@
+{
+  "nav": {
+    "home": "Home",
+    "packages": "Packages",
+    "build": "Build Your Plan",
+    "contact": "Contact",
+    "language": "Language"
+  },
+  "hero": {
+    "title": "Discover Egypt with Us",
+    "subtitle": "Explore Egypt through a unique journey that combines history, culture and adventure",
+    "ctaPrimary": "Explore Packages",
+    "ctaSecondary": "Build Your Plan"
+  },
+  "sections": {
+    "packagesPreview": "Popular Destinations",
+    "planTeaser": "Build Your Plan",
+    "about": "About Skyward",
+    "contact": "Contact"
+  },
+  "contact": {
+    "readyTitle": "Ready to Start Your Journey?",
+    "readySubtitle": "Get in touch with our travel experts today",
+    "callUs": "Call Us",
+    "emailUs": "Email Us",
+    "whatsapp": "WhatsApp",
+    "chatNow": "Chat Now"
+  },
+  "footer": {
+    "tagline": "Premium trips, hotels, and experiences with a unified elegant design.",
+    "explore": "Explore Packages",
+    "imprint": "Imprint",
+    "privacy": "Privacy",
+    "quickLinks": "Quick Links",
+    "contactHeading": "Contact Us",
+    "getInTouch": "Get In Touch",
+    "whatsappText": "Chat with us on WhatsApp for instant booking assistance!",
+    "links": {
+      "hotels": "Hotels",
+      "activities": "Activities",
+      "cruises": "Cruises"
+    }
+  },
+  "cta": {
+    "viewDetails": "View Details",
+    "bookWhatsapp": "Book via WhatsApp",
+    "whatsapp": "Contact us on WhatsApp",
+    "chatWhatsapp": "Chat via WhatsApp"
+  },
+  "badges": {
+    "mostPopular": "Most Popular"
+  },
+  "package": {
+    "day": "Day",
+    "activities": "Activities",
+    "gallery": "Gallery",
+    "bookNow": "Book Now",
+    "duration": "Duration",
+    "price": "Price",
+    "includes": "Includes",
+    "excludes": "Excludes",
+    "itinerary": "Itinerary"
+  }
+}

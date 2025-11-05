@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Luxor & Aswan Tour — Skyward Travel</title>
+    <link rel="stylesheet" href="/styles/styles.css" />
+    <style>
+      .day-section {
+        margin: 2rem 0;
+        padding: 1.5rem;
+        border-radius: 12px;
+        background: #f8f9fa;
+        border: 1px solid #e9ecef;
+      }
+      
+      .day-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid var(--primary-blue);
+      }
+      
+      .day-number {
+        background: var(--primary-blue);
+        color: white;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 1.1rem;
+      }
+      
+      .day-title {
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: var(--primary-blue);
+        margin: 0;
+      }
+      
+      .day-content {
+        display: grid;
+        grid-template-columns: 1fr 600px;
+        gap: 2rem;
+        align-items: start;
+      }
+      
+      .day-activities {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      
+      .day-activities li {
+        padding: 0.5rem 0;
+        padding-right: 1.5rem;
+        position: relative;
+        color: #333;
+        line-height: 1.6;
+      }
+      
+      .day-activities li:before {
+        content: "✓";
+        position: absolute;
+        right: 0;
+        color: var(--primary-blue);
+        font-weight: bold;
+      }
+      
+      .day-gallery {
+        position: relative;
+        border-radius: 8px;
+        overflow: hidden;
+        border: 1px solid #ddd;
+        background: #fff;
+        transition: all 0.2s ease;
+      }
+      
+      .day-gallery:hover {
+        border-color: #ccc;
+      }
+
+      .gallery-dot {
+        display: none;
+      }
+
+      @media (max-width: 1200px) {
+        .day-content {
+          grid-template-columns: 450px 1fr;
+        }
+      }
+      
+      @media (max-width: 900px) {
+        .day-content {
+          grid-template-columns: 350px 1fr;
+        }
+      }
+
+      /* Stack on tablets (≤1024px) and phones */
+      @media (max-width: 1024px) {
+        .day-content {
+          grid-template-columns: 1fr;
+          gap: 1rem;
+        }
+      }
+      
+      @media (max-width: 768px) {
+        .day-content {
+          grid-template-columns: 1fr;
+          gap: 1rem;
+        }
+        
+        .gallery-caption {
+          font-size: 0.8rem;
+          padding: 10px 12px;
+          letter-spacing: 0.2px;
+        }
+      }
+      
+      @media (max-width: 480px) {
+        .gallery-caption {
+          font-size: 0.75rem;
+          padding: 8px 10px;
+          line-height: 1.3;
+        }
+      }
+      
+      @media (min-width: 1200px) {
+        .gallery-caption {
+          font-size: 1rem;
+          padding: 14px 18px;
+        }
+      }
+      /* Image grid and uniform card */
+      .grid { display: grid; gap: 12px; }
+      .grid-3 { grid-template-columns: repeat(3, 1fr); }
+      @media (max-width: 1024px) { .grid-3 { grid-template-columns: repeat(2, 1fr); } }
+      @media (max-width: 600px) { .grid-3 { grid-template-columns: 1fr; } }
+
+      .card { display: block; background: #fff; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; text-decoration: none; color: inherit; }
+      .card:hover { border-color: #ccc; box-shadow: 0 1px 6px rgba(0,0,0,0.06); }
+      .card-image { width: 100%; }
+      .card-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+      .card--uniform .card-image { aspect-ratio: 16 / 9; }
+      /* ألبوم الصور (عرض صورة واحدة مع أسهم والتنقل) */
+      .album { position: relative; max-width: 980px; margin: 0 auto; padding: 0; border-radius: 0; background: transparent; border: none; box-shadow: none; }
+      .album-view { position: relative; aspect-ratio: 16 / 9; width: 100%; border-radius: 0; overflow: hidden; background: transparent; border: none; }
+      .album-view::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(to top, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.08) 40%, rgba(0,0,0,0) 60%); }
+      .album-image { width: 100%; height: 100%; object-fit: cover; display: block; transition: opacity 240ms ease, transform 240ms ease; opacity: 1; transform: translateX(0); will-change: opacity, transform; }
+      .album-caption { position: absolute; bottom: 14px; right: 14px; padding: 6px 10px; background: rgba(0,0,0,0.6); color: #fff; border-radius: 8px; font-size: 0.9rem; max-width: 60%; line-height: 1.4; }
+      .album-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.9); color: #333; border: 1px solid rgba(0,0,0,0.12); width: 42px; height: 42px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 160ms ease, transform 160ms ease, box-shadow 160ms ease; z-index: 10; backdrop-filter: blur(4px); box-shadow: 0 4px 14px rgba(0,0,0,0.12); }
+      .album-arrow:hover { background: rgba(255,255,255,1); transform: translateY(-50%) scale(1.05); box-shadow: 0 3px 10px rgba(0,0,0,0.12); }
+      .album-arrow:active { transform: translateY(-50%) scale(0.98); }
+      .album-arrow.prev { left: 12px; }
+      .album-arrow.next { right: 12px; }
+      .album-indicator { display: none !important; }
+      @media (prefers-reduced-motion: reduce) { .album-image, .album-arrow { transition: none; } }
+      @media (max-width: 600px) { .album-arrow { width: 38px; height: 38px; } .album-caption { font-size: 0.85rem; max-width: 70%; bottom: 12px; right: 12px; } }
+    </style>
+  </head>
+  <body>
+    <div id="site-header"></div>
+    <main class="container">
+      <section class="hero-banner" style="background-image: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.35)), url('/packages/Luxor%20%26%20Aswan%20Tour/hero.jpg');">
+        <div class="container">
+          <h1>Luxor & Aswan Tour</h1>
+          <p data-i18n="hero.subtitle">Explore Luxor and Aswan in an exceptional journey through Egypt's ancient history and discover the treasures of the pharaohs.</p>
+          <div class="cta-row">
+<a class="btn btn-primary" href="https://wa.me/201126931142" target="_blank" rel="noopener" data-i18n="cta.bookWhatsapp">Book via WhatsApp</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title" data-i18n="package.itinerary">Itinerary</h2>
+        
+          <div class="day-section">
+            <div class="day-header">
+              <h3 class="day-title">Day 1 – Aswan (High Dam & Philae Temple)</h3>
+            </div>
+            <div class="day-content">
+              
+              <div class="day-gallery">
+                <div class="grid grid-3">
+                  <a class="card card--uniform" href="/packages/Luxor%20%26%20Aswan%20Tour/day 1/1-Luxor Temple at sunset.jpeg" target="_blank" rel="noopener">
+                    <div class="card-image">
+                      <img src="/packages/Luxor%20%26%20Aswan%20Tour/day 1/1-Luxor Temple at sunset.jpeg" alt="Luxor Temple at sunset" loading="lazy"/>
+                    </div>
+                  </a>
+                  <a class="card card--uniform" href="/packages/Luxor%20%26%20Aswan%20Tour/day 1/2-Karnak Temple complex, Luxor.jpeg" target="_blank" rel="noopener">
+                    <div class="card-image">
+                      <img src="/packages/Luxor%20%26%20Aswan%20Tour/day 1/2-Karnak Temple complex, Luxor.jpeg" alt="Karnak Temple complex, Luxor" loading="lazy"/>
+                    </div>
+                  </a>
+                  <a class="card card--uniform" href="/packages/Luxor%20%26%20Aswan%20Tour/day 1/3-Avenue of Sphinxes, Luxor.jpeg" target="_blank" rel="noopener">
+                    <div class="card-image">
+                      <img src="/packages/Luxor%20%26%20Aswan%20Tour/day 1/3-Avenue of Sphinxes, Luxor.jpeg" alt="Avenue of Sphinxes, Luxor" loading="lazy"/>
+                    </div>
+                  </a>
+                  <a class="card card--uniform" href="/packages/Luxor%20%26%20Aswan%20Tour/day 1/4-Luxor Temple illuminated at night.jpeg" target="_blank" rel="noopener">
+                    <div class="card-image">
+                      <img src="/packages/Luxor%20%26%20Aswan%20Tour/day 1/4-Luxor Temple illuminated at night.jpeg" alt="Luxor Temple illuminated at night" loading="lazy"/>
+                    </div>
+                  </a>
+                  <a class="card card--uniform" href="/packages/Luxor%20%26%20Aswan%20Tour/day 1/5-Hieroglyphs at Karnak Temple.jpeg" target="_blank" rel="noopener">
+                    <div class="card-image">
+                      <img src="/packages/Luxor%20%26%20Aswan%20Tour/day 1/5-Hieroglyphs at Karnak Temple.jpeg" alt="Hieroglyphs at Karnak Temple" loading="lazy"/>
+                    </div>
+                  </a>
+                  <a class="card card--uniform" href="/packages/Luxor%20%26%20Aswan%20Tour/day 1/6-Obelisk at Luxor Temple.jpeg" target="_blank" rel="noopener">
+                    <div class="card-image">
+                      <img src="/packages/Luxor%20%26%20Aswan%20Tour/day 1/6-Obelisk at Luxor Temple.jpeg" alt="Obelisk at Luxor Temple" loading="lazy"/>
+                    </div>
+                  </a>
+                  <a class="card card--uniform" href="/packages/Luxor%20%26%20Aswan%20Tour/day 1/7-Hypostyle Hall, Karnak Temple.jpeg" target="_blank" rel="noopener">
+                    <div class="card-image">
+                      <img src="/packages/Luxor%20%26%20Aswan%20Tour/day 1/7-Hypostyle Hall, Karnak Temple.jpeg" alt="Hypostyle Hall, Karnak Temple" loading="lazy"/>
+                    </div>
+                  </a>
+                  <a class="card card--uniform" href="/packages/Luxor%20%26%20Aswan%20Tour/day 1/8-Sacred Lake, Karnak Temple.jpeg" target="_blank" rel="noopener">
+                    <div class="card-image">
+                      <img src="/packages/Luxor%20%26%20Aswan%20Tour/day 1/8-Sacred Lake, Karnak Temple.jpeg" alt="Sacred Lake, Karnak Temple" loading="lazy"/>
+                    </div>
+                  </a>
+                  <a class="card card--uniform" href="/packages/Luxor%20%26%20Aswan%20Tour/day 1/9-Sound and light show at Karnak.jpeg" target="_blank" rel="noopener">
+                    <div class="card-image">
+                      <img src="/packages/Luxor%20%26%20Aswan%20Tour/day 1/9-Sound and light show at Karnak.jpeg" alt="Sound and light show at Karnak" loading="lazy"/>
+                    </div>
+                  </a>
+                  <a class="card card--uniform" href="/packages/Luxor%20%26%20Aswan%20Tour/day 1/10-Traditional horse carriage in Luxor.jpeg" target="_blank" rel="noopener">
+                    <div class="card-image">
+                      <img src="/packages/Luxor%20%26%20Aswan%20Tour/day 1/10-Traditional horse carriage in Luxor.jpeg" alt="Traditional horse carriage in Luxor" loading="lazy"/>
+                    </div>
+                  </a>
+                </div>
+              </div>
+              </div>
+              
+              <ul class="day-activities">
+                <li>Arrival in Aswan and embarkation on the Nile Cruise.</li><li>Visit the High Dam and Philae Temple.</li><li>Visit the Unfinished Obelisk.</li><li>Dinner and overnight on board in Aswan.</li>
+              </ul>
+            </div>
+          </div>
+          
+          <div class="day-section">
+            <div class="day-header">
+              <h3 class="day-title">Day 2 – Kom Ombo Temple & Edfu Temple</h3>
+            </div>
+            <div class="day-content">
+              
+              <div class="day-gallery">
+                <div class="grid grid-3">
+                  <a class="card card--uniform" href="/packages/Luxor%20%26%20Aswan%20Tour/day 2/1-Valley of the Kings, Luxor.jpeg" target="_blank" rel="noopener"><div class="card-image"><img src="/packages/Luxor%20%26%20Aswan%20Tour/day 2/1-Valley of the Kings, Luxor.jpeg" alt="Valley of the Kings, Luxor" loading="lazy"/></div></a>
+                  <a class="card card--uniform" href="/packages/Luxor%20%26%20Aswan%20Tour/day 2/2-Tomb of Tutankhamun, Valley of the Kings.jpeg" target="_blank" rel="noopener"><div class="card-image"><img src="/packages/Luxor%20%26%20Aswan%20Tour/day 2/2-Tomb of Tutankhamun, Valley of the Kings.jpeg" alt="Tomb of Tutankhamun, Valley of the Kings" loading="lazy"/></div></a>
+                  <a class="card card--uniform" href="/packages/Luxor%20%26%20Aswan%20Tour/day 2/3-Hieroglyphs in the Valley of the Kings.jpeg" target="_blank" rel="noopener"><div class="card-image"><img src="/packages/Luxor%20%26%20Aswan%20Tour/day 2/3-Hieroglyphs in the Valley of the Kings.jpeg" alt="Hieroglyphs in the Valley of the Kings" loading="lazy"/></div></a>
+                  <a class="card card--uniform" href="/packages/Luxor%20%26%20Aswan%20Tour/day 2/4-Hatshepsut Temple, Luxor.jpeg" target="_blank" rel="noopener"><div class="card-image"><img src="/packages/Luxor%20%26%20Aswan%20Tour/day 2/4-Hatshepsut Temple, Luxor.jpeg" alt="Hatshepsut Temple, Luxor" loading="lazy"/></div></a>
+                  <a class="card card--uniform" href="/packages/Luxor%20%26%20Aswan%20Tour/day 2/5-Colossi of Memnon, Luxor.jpeg" target="_blank" rel="noopener"><div class="card-image"><img src="/packages/Luxor%20%26%20Aswan%20Tour/day 2/5-Colossi of Memnon, Luxor.jpeg" alt="Colossi of Memnon, Luxor" loading="lazy"/></div></a>
+                  <a class="card card--uniform" href="/packages/Luxor%20%26%20Aswan%20Tour/day 2/6-Hot air balloon over Luxor.jpeg" target="_blank" rel="noopener"><div class="card-image"><img src="/packages/Luxor%20%26%20Aswan%20Tour/day 2/6-Hot air balloon over Luxor.jpeg" alt="Hot air balloon over Luxor" loading="lazy"/></div></a>
+                  <a class="card card--uniform" href="/packages/Luxor%20%26%20Aswan%20Tour/day 2/7-Valley of the Queens.jpeg" target="_blank" rel="noopener"><div class="card-image"><img src="/packages/Luxor%20%26%20Aswan%20Tour/day 2/7-Valley of the Queens.jpeg" alt="Valley of the Queens" loading="lazy"/></div></a>
+                  <a class="card card--uniform" href="/packages/Luxor%20%26%20Aswan%20Tour/day 2/8-Tomb paintings in Valley of the Kings.jpeg" target="_blank" rel="noopener"><div class="card-image"><img src="/packages/Luxor%20%26%20Aswan%20Tour/day 2/8-Tomb paintings in Valley of the Kings.jpeg" alt="Tomb paintings in Valley of the Kings" loading="lazy"/></div></a>
+                  <a class="card card--uniform" href="/packages/Luxor%20%26%20Aswan%20Tour/day 2/9-Deir el-Medina workers village.jpeg" target="_blank" rel="noopener"><div class="card-image"><img src="/packages/Luxor%20%26%20Aswan%20Tour/day 2/9-Deir el-Medina workers village.jpeg" alt="Deir el-Medina workers village" loading="lazy"/></div></a>
+                  <a class="card card--uniform" href="/packages/Luxor%20%26%20Aswan%20Tour/day 2/10-Ramesseum temple, Luxor.jpeg" target="_blank" rel="noopener"><div class="card-image"><img src="/packages/Luxor%20%26%20Aswan%20Tour/day 2/10-Ramesseum temple, Luxor.jpeg" alt="Ramesseum temple, Luxor" loading="lazy"/></div></a>
+                  <a class="card card--uniform" href="/packages/Luxor%20%26%20Aswan%20Tour/day 2/11-Medinet Habu temple.jpeg" target="_blank" rel="noopener"><div class="card-image"><img src="/packages/Luxor%20%26%20Aswan%20Tour/day 2/11-Medinet Habu temple.jpeg" alt="Medinet Habu temple" loading="lazy"/></div></a>
+                  <a class="card card--uniform" href="/packages/Luxor%20%26%20Aswan%20Tour/day 2/12-Luxor West Bank landscape.jpeg" target="_blank" rel="noopener"><div class="card-image"><img src="/packages/Luxor%20%26%20Aswan%20Tour/day 2/12-Luxor West Bank landscape.jpeg" alt="Luxor West Bank landscape" loading="lazy"/></div></a>
+                </div>
+              </div>
+              </div>
+              
+              <ul class="day-activities">
+                <li>Sail to Kom Ombo and visit the Temple of Kom Ombo.</li><li>Continue sailing to Edfu.</li><li>Visit the Temple of Horus in Edfu.</li><li>Lunch and overnight on board.</li>
+              </ul>
+            </div>
+          </div>
+          
+          <div class="day-section">
+            <div class="day-header">
+              <h3 class="day-title">Day 3 – Luxor (Valley of the Kings & Hatshepsut Temple)</h3>
+            </div>
+            <div class="day-content">
+              
+              <div class="day-gallery">
+                <div class="grid grid-3">
+                  <a class="card card--uniform" href="/packages/Luxor%20%26%20Aswan%20Tour/day 3/1-Edfu Temple dedicated to Horus.jpeg" target="_blank" rel="noopener"><div class="card-image"><img src="/packages/Luxor%20%26%20Aswan%20Tour/day 3/1-Edfu Temple dedicated to Horus.jpeg" alt="Edfu Temple dedicated to Horus" loading="lazy"/></div></a>
+                  <a class="card card--uniform" href="/packages/Luxor%20%26%20Aswan%20Tour/day 3/2-Kom Ombo Temple.jpeg" target="_blank" rel="noopener"><div class="card-image"><img src="/packages/Luxor%20%26%20Aswan%20Tour/day 3/2-Kom Ombo Temple.jpeg" alt="Kom Ombo Temple" loading="lazy"/></div></a>
+                  <a class="card card--uniform" href="/packages/Luxor%20%26%20Aswan%20Tour/day 3/3-Nile cruise ship.jpeg" target="_blank" rel="noopener"><div class="card-image"><img src="/packages/Luxor%20%26%20Aswan%20Tour/day 3/3-Nile cruise ship.jpeg" alt="Nile cruise ship" loading="lazy"/></div></a>
+                  <a class="card card--uniform" href="/packages/Luxor%20%26%20Aswan%20Tour/day 3/4-Traditional felucca sailing.jpeg" target="_blank" rel="noopener"><div class="card-image"><img src="/packages/Luxor%20%26%20Aswan%20Tour/day 3/4-Traditional felucca sailing.jpeg" alt="Traditional felucca sailing" loading="lazy"/></div></a>
+                  <a class="card card--uniform" href="/packages/Luxor%20%26%20Aswan%20Tour/day 3/5-Nile River landscape.jpeg" target="_blank" rel="noopener"><div class="card-image"><img src="/packages/Luxor%20%26%20Aswan%20Tour/day 3/5-Nile River landscape.jpeg" alt="Nile River landscape" loading="lazy"/></div></a>
+                  <a class="card card--uniform" href="/packages/Luxor%20%26%20Aswan%20Tour/day 3/6-Temple of Sobek and Haroeris, Kom Ombo.jpeg" target="_blank" rel="noopener"><div class="card-image"><img src="/packages/Luxor%20%26%20Aswan%20Tour/day 3/6-Temple of Sobek and Haroeris, Kom Ombo.jpeg" alt="Temple of Sobek and Haroeris, Kom Ombo" loading="lazy"/></div></a>
+                  <a class="card card--uniform" href="/packages/Luxor%20%26%20Aswan%20Tour/day 3/7-Crocodile mummies at Kom Ombo.jpeg" target="_blank" rel="noopener"><div class="card-image"><img src="/packages/Luxor%20%26%20Aswan%20Tour/day 3/7-Crocodile mummies at Kom Ombo.jpeg" alt="Crocodile mummies at Kom Ombo" loading="lazy"/></div></a>
+                  <a class="card card--uniform" href="/packages/Luxor%20%26%20Aswan%20Tour/day 3/8-Nile sunset from cruise ship.jpeg" target="_blank" rel="noopener"><div class="card-image"><img src="/packages/Luxor%20%26%20Aswan%20Tour/day 3/8-Nile sunset from cruise ship.jpeg" alt="Nile sunset from cruise ship" loading="lazy"/></div></a>
+                  <a class="card card--uniform" href="/packages/Luxor%20%26%20Aswan%20Tour/day 3/9-Traditional Nubian village.jpeg" target="_blank" rel="noopener"><div class="card-image"><img src="/packages/Luxor%20%26%20Aswan%20Tour/day 3/9-Traditional Nubian village.jpeg" alt="Traditional Nubian village" loading="lazy"/></div></a>
+                  <a class="card card--uniform" href="/packages/Luxor%20%26%20Aswan%20Tour/day 3/10-Nile cruise dining experience.jpeg" target="_blank" rel="noopener"><div class="card-image"><img src="/packages/Luxor%20%26%20Aswan%20Tour/day 3/10-Nile cruise dining experience.jpeg" alt="Nile cruise dining experience" loading="lazy"/></div></a>
+                  <a class="card card--uniform" href="/packages/Luxor%20%26%20Aswan%20Tour/day 3/11-Temple reliefs at Edfu.jpeg" target="_blank" rel="noopener"><div class="card-image"><img src="/packages/Luxor%20%26%20Aswan%20Tour/day 3/11-Temple reliefs at Edfu.jpeg" alt="Temple reliefs at Edfu" loading="lazy"/></div></a>
+                  <a class="card card--uniform" href="/packages/Luxor%20%26%20Aswan%20Tour/day 3/12-Nile cruise entertainment.jpeg" target="_blank" rel="noopener"><div class="card-image"><img src="/packages/Luxor%20%26%20Aswan%20Tour/day 3/12-Nile cruise entertainment.jpeg" alt="Nile cruise entertainment" loading="lazy"/></div></a>
+                </div>
+              </div>
+              </div>
+              
+              <ul class="day-activities">
+                <li>Sail to Luxor.</li><li>Visit the Karnak Temple and the Luxor Temple.</li><li>Lunch and overnight on board in Luxor.</li>
+              </ul>
+            </div>
+          </div>
+          
+          <div class="day-section">
+            <div class="day-header">
+              <h3 class="day-title">Day 4 – Luxor (Karnak & Luxor Temples)</h3>
+            </div>
+            <div class="day-content">
+              
+              <div class="day-gallery">
+                <div class="grid grid-3">
+                  <a class="card card--uniform" href="/packages/Luxor%20%26%20Aswan%20Tour/day 4/1-Aswan High Dam.jpeg" target="_blank" rel="noopener"><div class="card-image"><img src="/packages/Luxor%20%26%20Aswan%20Tour/day 4/1-Aswan High Dam.jpeg" alt="Aswan High Dam" loading="lazy"/></div></a>
+                  <a class="card card--uniform" href="/packages/Luxor%20%26%20Aswan%20Tour/day 4/2-Philae Temple, Aswan.jpeg" target="_blank" rel="noopener"><div class="card-image"><img src="/packages/Luxor%20%26%20Aswan%20Tour/day 4/2-Philae Temple, Aswan.jpeg" alt="Philae Temple, Aswan" loading="lazy"/></div></a>
+                  <a class="card card--uniform" href="/packages/Luxor%20%26%20Aswan%20Tour/day 4/3-Unfinished Obelisk, Aswan.jpeg" target="_blank" rel="noopener"><div class="card-image"><img src="/packages/Luxor%20%26%20Aswan%20Tour/day 4/3-Unfinished Obelisk, Aswan.jpeg" alt="Unfinished Obelisk, Aswan" loading="lazy"/></div></a>
+                  <a class="card card--uniform" href="/packages/Luxor%20%26%20Aswan%20Tour/day 4/4-Nubian village, Aswan.jpeg" target="_blank" rel="noopener"><div class="card-image"><img src="/packages/Luxor%20%26%20Aswan%20Tour/day 4/4-Nubian village, Aswan.jpeg" alt="Nubian village, Aswan" loading="lazy"/></div></a>
+                  <a class="card card--uniform" href="/packages/Luxor%20%26%20Aswan%20Tour/day 4/5-Elephantine Island, Aswan.jpeg" target="_blank" rel="noopener"><div class="card-image"><img src="/packages/Luxor%20%26%20Aswan%20Tour/day 4/5-Elephantine Island, Aswan.jpeg" alt="Elephantine Island, Aswan" loading="lazy"/></div></a>
+                  <a class="card card--uniform" href="/packages/Luxor%20%26%20Aswan%20Tour/day 4/6-Abu Simbel temples.jpeg" target="_blank" rel="noopener"><div class="card-image"><img src="/packages/Luxor%20%26%20Aswan%20Tour/day 4/6-Abu Simbel temples.jpeg" alt="Abu Simbel temples" loading="lazy"/></div></a>
+                  <a class="card card--uniform" href="/packages/Luxor%20%26%20Aswan%20Tour/day 4/7-Ramses II statue at Abu Simbel.jpeg" target="_blank" rel="noopener"><div class="card-image"><img src="/packages/Luxor%20%26%20Aswan%20Tour/day 4/7-Ramses II statue at Abu Simbel.jpeg" alt="Ramses II statue at Abu Simbel" loading="lazy"/></div></a>
+                  <a class="card card--uniform" href="/packages/Luxor%20%26%20Aswan%20Tour/day 4/8-Interior of Abu Simbel temple.jpeg" target="_blank" rel="noopener"><div class="card-image"><img src="/packages/Luxor%20%26%20Aswan%20Tour/day 4/8-Interior of Abu Simbel temple.jpeg" alt="Interior of Abu Simbel temple" loading="lazy"/></div></a>
+                  <a class="card card--uniform" href="/packages/Luxor%20%26%20Aswan%20Tour/day 4/9-Lake Nasser, Abu Simbel.jpeg" target="_blank" rel="noopener"><div class="card-image"><img src="/packages/Luxor%20%26%20Aswan%20Tour/day 4/9-Lake Nasser, Abu Simbel.jpeg" alt="Lake Nasser, Abu Simbel" loading="lazy"/></div></a>
+                  <a class="card card--uniform" href="/packages/Luxor%20%26%20Aswan%20Tour/day 4/10-Aswan Botanical Garden.jpeg" target="_blank" rel="noopener"><div class="card-image"><img src="/packages/Luxor%20%26%20Aswan%20Tour/day 4/10-Aswan Botanical Garden.jpeg" alt="Aswan Botanical Garden" loading="lazy"/></div></a>
+                  <a class="card card--uniform" href="/packages/Luxor%20%26%20Aswan%20Tour/day 4/11-Traditional Nubian house.jpeg" target="_blank" rel="noopener"><div class="card-image"><img src="/packages/Luxor%20%26%20Aswan%20Tour/day 4/11-Traditional Nubian house.jpeg" alt="Traditional Nubian house" loading="lazy"/></div></a>
+                  <a class="card card--uniform" href="/packages/Luxor%20%26%20Aswan%20Tour/day 4/12-Aswan Souk (market).jpeg" target="_blank" rel="noopener"><div class="card-image"><img src="/packages/Luxor%20%26%20Aswan%20Tour/day 4/12-Aswan Souk (market).jpeg" alt="Aswan Souk (market)" loading="lazy"/></div></a>
+                  <a class="card card--uniform" href="/packages/Luxor%20%26%20Aswan%20Tour/day 4/13-Felucca sailing around Elephantine Island.jpeg" target="_blank" rel="noopener"><div class="card-image"><img src="/packages/Luxor%20%26%20Aswan%20Tour/day 4/13-Felucca sailing around Elephantine Island.jpeg" alt="Felucca sailing around Elephantine Island" loading="lazy"/></div></a>
+                  <a class="card card--uniform" href="/packages/Luxor%20%26%20Aswan%20Tour/day 4/14-Sunset over the Nile in Aswan.jpeg" target="_blank" rel="noopener"><div class="card-image"><img src="/packages/Luxor%20%26%20Aswan%20Tour/day 4/14-Sunset over the Nile in Aswan.jpeg" alt="Sunset over the Nile in Aswan" loading="lazy"/></div></a>
+                  <a class="card card--uniform" href="/packages/Luxor%20%26%20Aswan%20Tour/day 4/15-Abu Simbel sound and light show.jpeg" target="_blank" rel="noopener"><div class="card-image"><img src="/packages/Luxor%20%26%20Aswan%20Tour/day 4/15-Abu Simbel sound and light show.jpeg" alt="Abu Simbel sound and light show" loading="lazy"/></div></a>
+                </div>
+              </div>
+              </div>
+              
+              <ul class="day-activities">
+                <li>Visit the Valley of the Kings.</li><li>Visit the Temple of Queen Hatshepsut.</li><li>Visit the Colossi of Memnon.</li><li>Disembark from the cruise and transfer to the airport for departure.</li>
+              </ul>
+            </div>
+          </div>
+          
+      </section>
+    </main>
+    <div id="site-footer"></div>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script src="/scripts/main.js"></script>
+    <script>
+      // سكربت تحويل كل معرض يوم إلى ألبوم يعرض صورة واحدة مع أسهم ومؤشر
+      (function() {
+        document.addEventListener('DOMContentLoaded', function() {
+          const dayGalleries = Array.from(document.querySelectorAll('.day-gallery'));
+          if (!dayGalleries.length) return;
+
+          const IMAGE_EXTS = ['.jpg','.jpeg','.png','.webp','.gif'];
+          function isImageFile(name) { const lower = (name||'').toLowerCase(); return IMAGE_EXTS.some(ext => lower.endsWith(ext)); }
+          function folderFromSrc(src) {
+            try {
+              const u = new URL(src, window.location.origin);
+              const p = u.pathname; // مثال: /packages/..../images/day-1/photo.jpg
+              return p.slice(0, p.lastIndexOf('/') + 1); // يحتفظ بشرطة مائلة أخيرة
+            } catch(e) {
+              const idx = src.lastIndexOf('/');
+              return idx >= 0 ? src.slice(0, idx + 1) : '';
+            }
+          }
+
+          dayGalleries.forEach((gallery) => {
+            // جمع صور موجودة كاحتياطي
+            const existingImgs = Array.from(gallery.querySelectorAll('img'));
+             const fallbackList = existingImgs.map(img => {
+               const s = img.getAttribute('src');
+               let alt = img.getAttribute('alt') || '';
+               if (!alt) {
+                 let fn = s || '';
+                 const idx2 = fn.lastIndexOf('/');
+                 if (idx2 >= 0) fn = fn.slice(idx2 + 1);
+                 try { fn = decodeURIComponent(fn); } catch {}
+                 alt = fn.replace(/\.(jpg|jpeg|png|webp|gif)$/i,'');
+                 alt = alt.replace(/[-_]/g,' ');
+                 alt = alt.replace(/^\s*\d+\s*[-_.]?\s*/,'').replace(/\s{2,}/g,' ').trim();
+               }
+               return { src: s, alt };
+             });
+
+            let folder = gallery.getAttribute('data-folder');
+            if (!folder && fallbackList.length) {
+              folder = folderFromSrc(fallbackList[0].src);
+            }
+
+            // بناء واجهة الألبوم
+            const albumEl = document.createElement('div'); albumEl.className = 'album';
+            const viewEl = document.createElement('div'); viewEl.className = 'album-view'; viewEl.tabIndex = 0; viewEl.setAttribute('role','region'); viewEl.setAttribute('aria-label','ألبوم صور اليوم');
+            const prevBtn = document.createElement('button'); prevBtn.className = 'album-arrow prev'; prevBtn.setAttribute('aria-label','السابق');
+            prevBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>';
+            const nextBtn = document.createElement('button'); nextBtn.className = 'album-arrow next'; nextBtn.setAttribute('aria-label','التالي');
+            nextBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>';
+            const imgEl = document.createElement('img'); imgEl.className = 'album-image'; imgEl.alt = '';
+            const indicatorEl = document.createElement('div'); indicatorEl.className = 'album-indicator'; indicatorEl.innerHTML = '<span class="current">1</span> / <span class="total">0</span>';
+            const captionEl = document.createElement('div'); captionEl.className = 'album-caption';
+
+            viewEl.append(prevBtn, imgEl, nextBtn, indicatorEl, captionEl);
+            albumEl.appendChild(viewEl);
+            gallery.innerHTML = ''; gallery.appendChild(albumEl);
+
+            let images = []; let index = 0;
+
+            function fetchFolderImages(folderPath) {
+               if (!folderPath) return Promise.resolve([]);
+               let base;
+               try {
+                 base = new URL(folderPath, location.origin);
+                 if (!base.pathname.endsWith('/')) base.pathname += '/';
+               } catch(e) {
+                 const fp = folderPath.endsWith('/') ? folderPath : folderPath + '/';
+                 base = new URL(fp, location.origin);
+               }
+               return fetch(base.toString()).then(resp => { if (!resp.ok) throw new Error('تعذر الوصول إلى مجلد الصور'); return resp.text(); })
+               .then(html => {
+                 const doc = new DOMParser().parseFromString(html, 'text/html');
+                 const anchors = Array.from(doc.querySelectorAll('a'));
+                 const files = anchors.map(a => a.getAttribute('href')).filter(Boolean).filter(isImageFile);
+                 const full = files.map(name => { try { return new URL(name, base).toString(); } catch { return base.toString() + name; } });
+                 full.sort((a,b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }));
+                 return full.map(src => {
+                   let filename = src;
+                   try { filename = new URL(src, location.origin).pathname.split('/').pop(); } catch {}
+                   try { filename = decodeURIComponent(filename); } catch {}
+                   filename = filename.replace(/\.(jpg|jpeg|png|webp|gif)$/i,'');
+                   filename = filename.replace(/[-_]/g,' ');
+                   filename = filename.replace(/^\s*\d+\s*[-_.]?\s*/,'').replace(/\s{2,}/g,' ').trim();
+                   return { src, alt: filename };
+                 });
+               }).catch(() => fallbackList);
+             }
+
+            function preload(i) { if (!images.length) return; const safe = ((i % images.length) + images.length) % images.length; const item = images[safe]; const pre = new Image(); pre.src = item.src; }
+
+             function setImage(i, dir) {
+               if (!images.length) return;
+               index = ((i % images.length) + images.length) % images.length;
+               const item = images[index];
+               imgEl.style.opacity = '0';
+               imgEl.style.transform = dir === 'next' ? 'translateX(15px)' : dir === 'prev' ? 'translateX(-15px)' : 'translateX(0)';
+               setTimeout(() => {
+                 imgEl.src = item.src;
+                 imgEl.alt = item.alt || '';
+                 imgEl.style.opacity = '1';
+                 imgEl.style.transform = 'translateX(0)';
+                 indicatorEl.querySelector('.current').textContent = String(index + 1);
+                 indicatorEl.querySelector('.total').textContent = String(images.length);
+                 captionEl.textContent = item.alt || '';
+                 preload(index + 1); preload(index - 1);
+               }, 180);
+             }
+
+             prevBtn.addEventListener('click', () => { const ni = (index - 1 + images.length) % images.length; setImage(ni, 'prev'); });
+             nextBtn.addEventListener('click', () => { const ni = (index + 1) % images.length; setImage(ni, 'next'); });
+             viewEl.addEventListener('keydown', (e) => {
+               if (e.key === 'ArrowLeft') { e.preventDefault(); prevBtn.click(); }
+               else if (e.key === 'ArrowRight') { e.preventDefault(); nextBtn.click(); }
+               else if (e.key === 'Home') { e.preventDefault(); setImage(0); }
+               else if (e.key === 'End') { e.preventDefault(); setImage(images.length - 1); }
+             });
+             setTimeout(() => { viewEl.focus({ preventScroll: true }); }, 0);
+
+            fetchFolderImages(folder).then(list => { images = (list && list.length) ? list : fallbackList; setImage(0); });
+          });
+        });
+      })();
+    </script>
+  </body>
+</html>

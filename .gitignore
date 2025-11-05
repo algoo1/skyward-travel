@@ -1,0 +1,24 @@
+# Editor and environment
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Wrangler and build artifacts
+.wrangler/
+dist/
+build/
+*.log
+
+# Node modules (if present)
+node_modules/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Temporary files
+.tmp/
+*.tmp
+
+# Images should be tracked (do NOT ignore),
+# Cloudflare upload exclusion is controlled via .cfignore only.

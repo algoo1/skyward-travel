@@ -1,0 +1,9 @@
+{
+  "type": "module",
+  "name": "hotel-updater",
+  "version": "1.0.0",
+  "description": "Script to update hotel titles and locations",
+  "dependencies": {
+    "cheerio": "^1.1.2"
+  }
+}

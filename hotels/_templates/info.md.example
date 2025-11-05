@@ -1,0 +1,17 @@
+Booking URL:
+<paste Booking.com link here>
+
+Verified Details (date: YYYY-MM-DD):
+- Location: <full address>
+- Star Rating: <X stars>
+- Facilities: <comma-separated main facilities>
+- Policies: <key policy points as bullets>
+- Contact: <phone / email / website>
+- Images: <folder path and count>
+
+Notes / Discrepancies:
+- <anything missing or mismatched vs Booking.com>
+
+Sources:
+- Booking.com: <booking page URL>
+- Official site (if needed): <official site URL>

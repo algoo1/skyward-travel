@@ -1,0 +1,64 @@
+{
+  "nav": {
+    "home": "الرئيسية",
+    "packages": "الباقات",
+    "build": "صمم خطتك",
+    "contact": "اتصل بنا",
+    "language": "اللغة"
+  },
+  "hero": {
+    "title": "اكتشف مصر معنا",
+    "subtitle": "استكشف مصر من خلال رحلة مميزة تجمع بين التاريخ والثقافة والمغامرة",
+    "ctaPrimary": "استكشف الباقات",
+    "ctaSecondary": "صمم خطتك"
+  },
+  "sections": {
+    "packagesPreview": "وجهات شهيرة",
+    "planTeaser": "صمم خطتك",
+    "about": "عن سكايورد",
+    "contact": "تواصل"
+  },
+  "contact": {
+    "readyTitle": "جاهز لبدء رحلتك؟",
+    "readySubtitle": "تواصل مع خبراء السفر لدينا اليوم",
+    "callUs": "اتصل بنا",
+    "emailUs": "راسلنا",
+    "whatsapp": "واتساب",
+    "chatNow": "تحدث الآن"
+  },
+  "footer": {
+    "tagline": "رحلات فاخرة وفنادق وتجارب بتصميم موحد أنيق.",
+    "explore": "استكشف الباقات",
+    "imprint": "البيانات",
+    "privacy": "الخصوصية",
+    "quickLinks": "روابط سريعة",
+    "contactHeading": "تواصل معنا",
+    "getInTouch": "ابـقَ على تواصل",
+    "whatsappText": "تحدث معنا عبر واتساب للمساعدة السريعة بالحجز!",
+    "links": {
+      "hotels": "فنادق",
+      "activities": "أنشطة",
+      "cruises": "رحلات بحرية"
+    }
+  },
+  "cta": {
+    "viewDetails": "عرض التفاصيل",
+    "bookWhatsapp": "احجز عبر واتساب",
+    "whatsapp": "تواصل معنا على واتساب",
+    "chatWhatsapp": "دردشة عبر واتساب"
+  },
+  "badges": {
+    "mostPopular": "الأكثر شعبية"
+  },
+  "package": {
+    "day": "اليوم",
+    "activities": "الأنشطة",
+    "gallery": "معرض الصور",
+    "bookNow": "احجز الآن",
+    "duration": "المدة",
+    "price": "السعر",
+    "includes": "يشمل",
+    "excludes": "لا يشمل",
+    "itinerary": "برنامج الرحلة"
+  }
+}

@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ألبوم الصور — Skyward Travel</title>
+    <link rel="stylesheet" href="/styles/styles.css" />
+    <style>
+      /*
+        ألبوم الصور (واجهة عرض صورة واحدة مع أسهم للتنقل)
+        - تصميم متجاوب يعمل على مختلف أحجام الشاشات
+        - انتقالات سلسة بين الصور (تلاشي + حركة طفيفة)
+        - دعم لوحة المفاتيح (السهم الأيسر/الأيمن)
+        - مؤشر يوضح موقع الصورة الحالية من إجمالي الصور
+      */
+
+      /* حاوية التخطيط الرئيسية */
+      .album-layout {
+        display: flex;
+        gap: 2rem;
+        max-width: 1400px;
+        margin: 2rem auto;
+        align-items: flex-start;
+      }
+
+      /* حاوية الألبوم */
+      .album {
+        position: relative;
+        flex: 1;
+        min-width: 0;
+        padding: 1rem;
+        border-radius: 12px;
+        background: #f8f9fa;
+        border: 1px solid #e9ecef;
+      }
+
+      /* منطقة المحتوى النصي */
+      .album-content {
+        flex: 0 0 400px;
+        padding: 1.5rem;
+        background: #fff;
+        border-radius: 12px;
+        border: 1px solid #e9ecef;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        height: fit-content;
+        position: sticky;
+        top: 2rem;
+      }
+
+      .album-content h2 {
+        color: var(--primary-blue, #2563eb);
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        border-bottom: 2px solid var(--primary-blue, #2563eb);
+        padding-bottom: 0.5rem;
+      }
+
+      .album-content h3 {
+        color: #374151;
+        font-size: 1.2rem;
+        margin: 1.5rem 0 1rem 0;
+      }
+
+      .album-content h4 {
+        color: #374151;
+        font-size: 1.1rem;
+        margin: 1.2rem 0 0.8rem 0;
+      }
+
+      .album-content p {
+        color: #6b7280;
+        line-height: 1.7;
+        margin-bottom: 1rem;
+      }
+
+      .album-content ul {
+        margin: 1rem 0;
+        padding-right: 1.5rem;
+      }
+
+      .album-content li {
+        color: #6b7280;
+        line-height: 1.6;
+        margin-bottom: 0.8rem;
+      }
+
+      .album-content li strong {
+        color: #374151;
+      }
+
+      .album-tips {
+        background: #f3f4f6;
+        padding: 1.2rem;
+        border-radius: 8px;
+        margin-top: 1.5rem;
+        border-right: 4px solid var(--primary-blue, #2563eb);
+      }
+
+      .album-tips h4 {
+        margin-top: 0;
+        color: var(--primary-blue, #2563eb);
+      }
+
+      .album-tips ul {
+        margin-bottom: 0;
+      }
+
+      /* منطقة عرض الصورة بنسبة 16:9 للحفاظ على تناسق الأبعاد */
+      .album-view {
+        position: relative;
+        aspect-ratio: 16 / 9;
+        width: 100%;
+        border-radius: 10px;
+        overflow: hidden;
+        background: #fff;
+        border: 1px solid #ddd;
+      }
+
+      /* صورة الألبوم الأساسية مع انتقالات سلسة */
+      .album-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        /* انتقال تلاشي + حركة طفيفة لإحساس بالانسيابية */
+        transition: opacity 240ms ease, transform 240ms ease;
+        opacity: 1;
+        transform: translateX(0);
+        will-change: opacity, transform;
+      }
+
+      /* أزرار الأسهم للتنقل بين الصور */
+      .album-arrow {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(255,255,255,0.9);
+        color: #333;
+        border: 1px solid rgba(0,0,0,0.12);
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        transition: background 160ms ease, transform 160ms ease, box-shadow 160ms ease;
+        z-index: 10;
+      }
+
+      .album-arrow:hover {
+        background: rgba(255,255,255,1);
+        transform: translateY(-50%) scale(1.05);
+        box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+      }
+
+      .album-arrow:active {
+        transform: translateY(-50%) scale(0.98);
+      }
+
+      /* أماكن الأسهم يمين/يسار */
+      .album-arrow.prev { left: 12px; }
+      .album-arrow.next { right: 12px; }
+
+      /* مؤشر رقم الصورة الحالية من الإجمالي */
+      .album-indicator {
+        position: absolute;
+        bottom: 12px;
+        left: 12px;
+        padding: 6px 10px;
+        background: rgba(255,255,255,0.9);
+        border: 1px solid rgba(0,0,0,0.12);
+        border-radius: 8px;
+        font-size: 0.95rem;
+        color: #333;
+      }
+
+      /* تحسينات الوصول لزر السهم عند التركيز بلوحة المفاتيح */
+      .album-arrow:focus-visible {
+        outline: 3px solid var(--primary-blue);
+        outline-offset: 2px;
+      }
+
+      /* احترام تفضيلات تقليل الحركة */
+      @media (prefers-reduced-motion: reduce) {
+        .album-image { transition: none; }
+        .album-arrow { transition: none; }
+      }
+
+      /* استجابة للشاشات المتوسطة والصغيرة */
+      @media (max-width: 1024px) {
+        .album-layout {
+          flex-direction: column;
+          gap: 1.5rem;
+        }
+        
+        .album-content {
+          flex: none;
+          position: static;
+          order: -1; /* عرض النص أولاً على الشاشات الصغيرة */
+        }
+      }
+
+      @media (max-width: 768px) {
+        .album-layout {
+          margin: 1rem auto;
+          gap: 1rem;
+        }
+        
+        .album-content {
+          padding: 1rem;
+        }
+        
+        .album-content h2 {
+          font-size: 1.3rem;
+        }
+        
+        .album-content h3 {
+          font-size: 1.1rem;
+        }
+      }
+
+      @media (max-width: 600px) {
+        .album { padding: 0.75rem; }
+        .album-arrow { width: 38px; height: 38px; font-size: 18px; }
+        .album-indicator { font-size: 0.9rem; }
+        
+        .album-content {
+          padding: 0.75rem;
+        }
+        
+        .album-content h2 {
+          font-size: 1.2rem;
+        }
+        
+        .album-tips {
+          padding: 1rem;
+        }
+      }
+      /* تحسين المظهر: ظل خفيف للحاوية */
+      .album {
+        box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+      }
+
+      /* طبقة تدرج خفيفة فوق الصورة لتحسين قراءة النص السفلي */
+      .album-view::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background: linear-gradient(to top, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.08) 40%, rgba(0,0,0,0) 60%);
+      }
+
+      /* شريط وصف الصورة الحالية */
+      .album-caption {
+        position: absolute;
+        bottom: 14px;
+        right: 14px;
+        padding: 6px 10px;
+        background: rgba(0,0,0,0.6);
+        color: #fff;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        max-width: 60%;
+        line-height: 1.4;
+        backdrop-filter: saturate(140%);
+      }
+
+      /* وضع المؤشر في المنتصف للحصول على توازن بصري أفضل */
+      .album-indicator {
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(255,255,255,0.92);
+        font-weight: 600;
+      }
+
+      /* تحسين شكل الأزرار مع ضبابية خلفية طفيفة */
+      .album-arrow {
+        backdrop-filter: blur(4px);
+        box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+      }
+
+      .album-arrow svg {
+        width: 22px;
+        height: 22px;
+      }
+
+      @media (max-width: 600px) {
+        .album-caption {
+          bottom: 12px;
+          right: 12px;
+          font-size: 0.85rem;
+          max-width: 70%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="site-header"></div>
+    <main class="container">
+      <section class="section" style="padding-top:24px;">
+        <h1 class="section-title">ألبوم الصور</h1>
+        <p class="section-subtitle">استخدم الأسهم أو لوحة المفاتيح للتنقل بين الصور.</p>
+
+        <!-- حاوية التخطيط الجديد للكمبيوتر -->
+        <div class="album-layout">
+          <!-- منطقة الألبوم -->
+          <div class="album" aria-label="عارض صور">
+          <div class="album-view" aria-live="polite">
+            <!-- سيتم ضبط هذه الصورة مبدئياً ثم التبديل عبر الجافاسكربت -->
+            <img class="album-image" src="" alt="" loading="eager" />
+            <!-- شريط وصف الصورة الحالية -->
+            <div class="album-caption" id="album-caption" aria-hidden="true"></div>
+          </div>
+
+          <!-- أزرار الأسهم للتنقل -->
+          <button class="album-arrow prev" type="button" aria-label="الصورة السابقة" title="الصورة السابقة">
+            <!-- أيقونة سهم للعودة -->
+            <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path fill="currentColor" d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+          </button>
+          <button class="album-arrow next" type="button" aria-label="الصورة التالية" title="الصورة التالية">
+            <!-- أيقونة سهم للتقدم -->
+            <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path fill="currentColor" d="M8.59 16.59L10 18l6-6-6-6-1.41 1.41L13.17 12z"/></svg>
+          </button>
+
+          <!-- مؤشر الموضع الحالي -->
+          <div class="album-indicator" aria-live="polite">
+            <span id="album-index">0</span>
+            <span> / </span>
+            <span id="album-total">0</span>
+          </div>
+          </div>
+          
+          <!-- منطقة النص الوصفي -->
+          <div class="album-content">
+            <h2>مجموعة صور من رحلة الأقصر وأسوان</h2>
+            <p>استمتع بمشاهدة مجموعة مختارة من أجمل الصور التي تم التقاطها خلال رحلة الأقصر وأسوان الاستثنائية. تتضمن هذه المجموعة صوراً رائعة لأهم المعالم الأثرية والتاريخية في صعيد مصر.</p>
+            
+            <h3>ما ستشاهده في هذا الألبوم:</h3>
+            <ul>
+              <li><strong>معبد الأقصر:</strong> صور مذهلة للمعبد عند الغروب وإضاءته الليلية الساحرة</li>
+              <li><strong>مجمع معبد الكرنك:</strong> أكبر مجمع ديني في العالم القديم بأعمدته الشاهقة</li>
+              <li><strong>طريق الكباش:</strong> الطريق المقدس الذي يربط بين معبدي الأقصر والكرنك</li>
+              <li><strong>النقوش الهيروغليفية:</strong> كتابات فرعونية أصيلة محفورة على جدران المعابد</li>
+              <li><strong>عروض الصوت والضوء:</strong> عروض مسائية تحكي تاريخ الحضارة المصرية القديمة</li>
+            </ul>
+            
+            <p>كل صورة في هذا الألبوم تحكي قصة من قصص الحضارة المصرية العريقة، وتأخذك في رحلة عبر الزمن لاستكشاف عظمة الفراعنة وإنجازاتهم المعمارية الخالدة.</p>
+            
+            <div class="album-tips">
+              <h4>نصائح للتصفح:</h4>
+              <ul>
+                <li>استخدم الأسهم الموجودة على جانبي الصورة للتنقل</li>
+                <li>يمكنك أيضاً استخدام أسهم لوحة المفاتيح (← →)</li>
+                <li>اقرأ وصف كل صورة في الزاوية السفلية اليمنى</li>
+                <li>تابع رقم الصورة الحالية في المؤشر السفلي</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <div id="site-footer"></div>
+
+    <script>
+      // ---------------------------------------------
+      // إعداد بيانات الصور (مصادر + نصوص بديلة)
+      // ملاحظة: يمكن تعديل هذه القائمة لإضافة/إزالة صور بسهولة.
+      // ---------------------------------------------
+      const IMAGES = [
+        { src: '/packages/Luxor%20%26%20Aswan%20Tour/day 1/1-Luxor Temple at sunset.jpeg', alt: 'معبد الأقصر عند الغروب' },
+        { src: '/packages/Luxor%20%26%20Aswan%20Tour/day 1/2-Karnak Temple complex, Luxor.jpeg', alt: 'مجمع معبد الكرنك، الأقصر' },
+        { src: '/packages/Luxor%20%26%20Aswan%20Tour/day 1/3-Avenue of Sphinxes, Luxor.jpeg', alt: 'طريق الكباش، الأقصر' },
+        { src: '/packages/Luxor%20%26%20Aswan%20Tour/day 1/4-Luxor Temple illuminated at night.jpeg', alt: 'إضاءة معبد الأقصر ليلاً' },
+        { src: '/packages/Luxor%20%26%20Aswan%20Tour/day 1/5-Hieroglyphs at Karnak Temple.jpeg', alt: 'نقوش هيروغليفية في الكرنك' },
+        { src: '/packages/Luxor%20%26%20Aswan%20Tour/day 1/6-Obelisk at Luxor Temple.jpeg', alt: 'مسلة معبد الأقصر' },
+        { src: '/packages/Luxor%20%26%20Aswan%20Tour/day 1/7-Hypostyle Hall, Karnak Temple.jpeg', alt: 'قاعة الأعمدة في الكرنك' },
+        { src: '/packages/Luxor%20%26%20Aswan%20Tour/day 1/8-Sacred Lake, Karnak Temple.jpeg', alt: 'البحيرة المقدسة في الكرنك' },
+        { src: '/packages/Luxor%20%26%20Aswan%20Tour/day 1/9-Sound and light show at Karnak.jpeg', alt: 'عرض الصوت والضوء في الكرنك' },
+        { src: '/packages/Luxor%20%26%20Aswan%20Tour/day 1/10-Traditional horse carriage in Luxor.jpeg', alt: 'عربة حصان تقليدية في الأقصر' }
+      ];
+
+      // ---------------------------------------------
+      // مراجع عناصر الواجهة
+      // ---------------------------------------------
+      const imgEl = document.querySelector('.album-image');
+      const prevBtn = document.querySelector('.album-arrow.prev');
+      const nextBtn = document.querySelector('.album-arrow.next');
+      const indexEl = document.getElementById('album-index');
+      const totalEl = document.getElementById('album-total');
+      const captionEl = document.getElementById('album-caption');
+
+      // المؤشر الحالي للصورة المعروضة
+      let currentIndex = 0;
+
+      // ---------------------------------------------
+      // وظيفة: تحميل مبدئي للصورة الأولى وتحديث المؤشر
+      // ---------------------------------------------
+      function initAlbum() {
+        totalEl.textContent = IMAGES.length;
+        setImage(0, null);
+      }
+
+      // ---------------------------------------------
+      // وظيفة: تحديث عرض الصورة مع انتقال سلس
+      // direction: 'next' | 'prev' | null
+      // ---------------------------------------------
+      function setImage(newIndex, direction) {
+        // التفاف الدليل لضمان التنقل الدائري
+        currentIndex = (newIndex + IMAGES.length) % IMAGES.length;
+
+        // تلاشي سريع للصورة الحالية
+        imgEl.style.opacity = 0;
+
+        // تحميل الصورة القادمة أولاً لتجنب الوميض
+        const nextSrc = IMAGES[currentIndex].src;
+        const nextAlt = IMAGES[currentIndex].alt;
+        const loader = new Image();
+        loader.src = nextSrc;
+        loader.onload = () => {
+          // استبدال مصدر الصورة ثم تلاشي للداخل مع حركة طفيفة
+          imgEl.src = nextSrc;
+          imgEl.alt = nextAlt;
+          // تحديث شريط الوصف بالنص البديل للصورة الحالية
+          captionEl.textContent = nextAlt;
+
+          // حركة طفيفة باتجاه الانتقال لإحساس أفضل
+          if (direction === 'next') {
+            imgEl.style.transform = 'translateX(14px)';
+          } else if (direction === 'prev') {
+            imgEl.style.transform = 'translateX(-14px)';
+          } else {
+            imgEl.style.transform = 'translateX(0)';
+          }
+
+          // طلب إطار لإطلاق الانتقال بهدوء
+          requestAnimationFrame(() => {
+            imgEl.style.opacity = 1;
+            // إعادة التمركز بعد اكتمال الانتقال
+            setTimeout(() => {
+              imgEl.style.transform = 'translateX(0)';
+            }, 260);
+          });
+
+          // تحديث المؤشر النصي
+          indexEl.textContent = currentIndex + 1;
+
+          // تحميل مسبق للصورة التالية والسابقة لتحسين السلاسة
+          preloadNeighbors();
+        };
+      }
+
+      // ---------------------------------------------
+      // وظيفة: تحميل مسبق للصورة التالية والسابقة لتسريع الانتقالات
+      // ---------------------------------------------
+      function preloadNeighbors() {
+        const nextIndex = (currentIndex + 1) % IMAGES.length;
+        const prevIndex = (currentIndex - 1 + IMAGES.length) % IMAGES.length;
+        [nextIndex, prevIndex].forEach(i => {
+          const preImg = new Image();
+          preImg.src = IMAGES[i].src;
+        });
+      }
+
+      // ---------------------------------------------
+      // الاستماع لأزرار الأسهم للتنقل
+      // ---------------------------------------------
+      nextBtn.addEventListener('click', () => setImage(currentIndex + 1, 'next'));
+      prevBtn.addEventListener('click', () => setImage(currentIndex - 1, 'prev'));
+
+      // ---------------------------------------------
+      // دعم لوحة المفاتيح (السهم الأيمن/الأيسر)
+      // ---------------------------------------------
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight') {
+          e.preventDefault();
+          setImage(currentIndex + 1, 'next');
+        } else if (e.key === 'ArrowLeft') {
+          e.preventDefault();
+          setImage(currentIndex - 1, 'prev');
+        }
+      });
+
+      // بدء الألبوم بعد تحميل DOM
+      document.addEventListener('DOMContentLoaded', initAlbum);
+    </script>
+
+    <!-- سكربت الموقع العام (رأس/تذييل تلقائي) -->
+    <script src="/scripts/main.js"></script>
+  </body>
+</html>

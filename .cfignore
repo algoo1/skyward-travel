@@ -1,0 +1,28 @@
+# Temporary exclusions to speed up initial deploy
+# We will re-include images after the first successful deployment
+
+# Exclude heavy image directories
+activities/**/image/
+cruises/**/image/
+hotels/**/image/
+packages/**/image/
+
+# Exclude common large binary formats
+*.jpg
+*.jpeg
+*.png
+*.webp
+*.gif
+*.heic
+*.tif
+*.tiff
+*.mp4
+*.mov
+*.zip
+*.rar
+*.7z
+*.psd
+*.ai
+*.pdf
+
+# Keep CSS/JS/HTML and small assets; images will be added later

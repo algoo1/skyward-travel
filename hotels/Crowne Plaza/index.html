@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Crowne Plaza — Skyward Travel</title>
+    <link rel="stylesheet" href="/styles/styles.css" />
+    <style>
+      /* Facilities list responsive grid (exact spec) */
+      .facilities-list {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 12px;
+        width: 100%;
+        box-sizing: border-box;
+      }
+      @media (max-width: 768px) {
+        .facilities-list {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 10px;
+          padding: 0 8px;
+          justify-content: center;
+        }
+      }
+      .facility {
+        background-color: #f3f3f3;
+        padding: 10px 14px;
+        border-radius: 12px;
+        text-align: center;
+        font-size: 14px;
+        white-space: normal;
+        overflow: hidden;
+      }
+      .facilities, .facilities-wrapper {
+        display: block !important;
+        overflow-x: visible !important;
+      }
+    </style>
+  
+    <style>
+      /* Facilities: unified CSS Grid (5 cols desktop, 2 cols mobile), no flex */
+      .booking-facilities .facilities-list {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 12px;
+        margin: 0;
+        padding: 0;
+      }
+      .booking-facilities .facility {
+        display: grid;
+        grid-template-columns: 24px 1fr;
+        align-items: center;
+        gap: 8px;
+        padding: 10px;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        box-sizing: border-box;
+        background: #fff;
+      }
+      .booking-facilities .facility .emoji {
+        font-size: 18px;
+        line-height: 1;
+      }
+      .booking-facilities .facility .label {
+        font-size: 14px;
+      }
+      /* Prevent horizontal scroll by ensuring wrappers are block/visible */
+      .facilities, .facilities-wrapper {
+        display: block !important;
+        overflow-x: visible !important;
+        width: 100% !important;
+      }
+      @media (max-width: 768px) {
+        .booking-facilities .facilities-list {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 10px;
+        }
+      }
+    </style>
+
+  </head>
+  <body>
+    <div id="site-header"></div>
+
+    <main class="container">
+      
+    <nav class="breadcrumb">
+      <a href="/">Home</a>
+      <span class="separator">></span>
+      <a href="/hotels/">Hotels</a>
+      <span class="separator">></span>
+      <span class="current">Crowne Plaza</span>
+    </nav>
+      
+      <!-- Hotel Header Section -->
+      <section class="booking-header">
+        <div class="hotel-info">
+          <div class="hotel-badges">
+            <div class="star-rating"><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i></div>
+          </div>
+          <h1 class="hotel-title">Crowne Plaza</h1>
+          
+        </div>
+        
+      </section>
+
+      <!-- Photo Gallery -->
+      
+    <div class="booking-gallery">
+      <div class="main-photo">
+        <img src="/hotels/Crowne%20Plaza/image/332189529.jpg" alt="Crowne Plaza" />
+        <button class="photo-count-btn" data-gallery="Crowne%20Plaza">
+          <i data-lucide="camera"></i>
+          Show all 43 photos
+        </button>
+      </div>
+      <div class="photo-grid">
+        
+          <div class="photo-item">
+            <img src="/hotels/Crowne%20Plaza/image/338229759.jpg" alt="Crowne Plaza" />
+          </div>
+        
+          <div class="photo-item">
+            <img src="/hotels/Crowne%20Plaza/image/338230006.jpg" alt="Crowne Plaza" />
+          </div>
+        
+          <div class="photo-item">
+            <img src="/hotels/Crowne%20Plaza/image/338230159.jpg" alt="Crowne Plaza" />
+          </div>
+        
+          <div class="photo-item">
+            <img src="/hotels/Crowne%20Plaza/image/338230271.jpg" alt="Crowne Plaza" />
+          </div>
+        
+      </div>
+    </div>
+
+      <!-- Facilities Section -->
+      
+      <section class="booking-facilities">
+        <div class="container">
+          <h3>Facilities</h3>
+          <div class="facilities-list">
+            <div class="facility"><span class="emoji">🏙︎</span><span class="label">City view</span></div>
+            <div class="facility"><span class="emoji">🏊︎</span><span class="label">Swimming pool</span></div>
+            <div class="facility"><span class="emoji">📶︎</span><span class="label">Free Wifi</span></div>
+            <div class="facility"><span class="emoji">🛁︎</span><span class="label">Bathtub</span></div>
+            <div class="facility"><span class="emoji">❄︎</span><span class="label">Air conditioning</span></div>
+            <div class="facility"><span class="emoji">🛎︎</span><span class="label">24-hour front desk</span></div>
+            <div class="facility"><span class="emoji">🔑︎</span><span class="label">Key card access</span></div>
+            <div class="facility"><span class="emoji">🧹︎</span><span class="label">Daily housekeeping</span></div>
+            <div class="facility"><span class="emoji">🚭︎</span><span class="label">Non-smoking rooms</span></div>
+            <div class="facility"><span class="emoji">🔒︎</span><span class="label">Safe</span></div>
+          </div>
+</div>
+      </section>
+
+      <!-- Main Content -->
+      <section class="booking-content">
+        <div class="content-main">
+          <div class="property-description">
+            <h2>About this property</h2>
+            <p>About this propertyElegant Accommodations: Crowne Plaza - West Cairo Arkan by IHG in Giza offers a 5-star experience with a rooftop swimming pool, spa facilities, sauna, fitness center, terrace, restaurant, bar, and free WiFi. Comfortable Amenities: Guests enjoy air-conditioning, private bathrooms, tea and coffee makers, mini-bars, and modern rooms with city views. Additional facilities include a steam room, fitness room, and yoga classes. Dining Options: The modern, family-friendly restaurant serves Mediterranean, Asian, and international cuisines with halal, kosher, vegetarian, vegan, gluten-free, and dairy-free options. Breakfast includes local specialties, warm dishes, fresh pastries, and more. Prime Location: Located 16 mi from Sphinx International Airport, the hotel is near Giza Pyramids (13 mi), Cairo Tower (18 mi), and Tahrir Square (17 mi). Guests appreciate the attentive staff, convenient location, and room cleanliness.Couples in particular like the location – they rated it 9.8 for a two-person trip.Distance in property description is calculated using © OpenStreetMap</p>
+          </div>
+
+          
+
+          <!-- Additional Amenities -->
+          
+
+          <!-- Room Types -->
+          
+
+          <!-- Check-in/Check-out Information -->
+          
+
+          <!-- Nearby Attractions -->
+          
+
+          <!-- Languages Spoken -->
+          
+
+          <!-- Hotel Policies -->
+          
+        </div>
+      </section>
+    </main>
+
+    <div id="site-footer"></div>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script src="/scripts/main.js"></script>
+    
+  </body>
+</html>

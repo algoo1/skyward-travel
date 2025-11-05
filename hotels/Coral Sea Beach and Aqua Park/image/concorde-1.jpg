@@ -1,0 +1,130 @@
+<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="skyGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#87CEEB;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0057B8;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="buildingGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFFFFF;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#F0F8FF;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Sky Background -->
+  <rect width="800" height="380" fill="url(#skyGradient)"/>
+  
+  <!-- Red Sea -->
+  <rect x="0" y="380" width="800" height="120" fill="#4682B4"/>
+  
+  <!-- Beach -->
+  <rect x="0" y="450" width="800" height="150" fill="#F4A460"/>
+  
+  <!-- Main Hotel Building -->
+  <rect x="150" y="140" width="500" height="310" fill="url(#buildingGradient)" stroke="#0057B8" stroke-width="3"/>
+  
+  <!-- Hotel Wings -->
+  <rect x="80" y="180" width="70" height="270" fill="url(#buildingGradient)" stroke="#0057B8" stroke-width="2"/>
+  <rect x="650" y="180" width="70" height="270" fill="url(#buildingGradient)" stroke="#0057B8" stroke-width="2"/>
+  
+  <!-- Decorative Elements -->
+  <rect x="350" y="120" width="100" height="30" fill="#FFD700" stroke="#0057B8" stroke-width="2"/>
+  
+  <!-- Windows Pattern -->
+  <rect x="170" y="160" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="200" y="160" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="230" y="160" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="260" y="160" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="290" y="160" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="320" y="160" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="380" y="160" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="410" y="160" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="440" y="160" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="470" y="160" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="500" y="160" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="530" y="160" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="560" y="160" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="590" y="160" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="620" y="160" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  
+  <!-- Second Row Windows -->
+  <rect x="170" y="210" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="200" y="210" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="230" y="210" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="260" y="210" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="290" y="210" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="320" y="210" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="380" y="210" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="410" y="210" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="440" y="210" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="470" y="210" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="500" y="210" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="530" y="210" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="560" y="210" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="590" y="210" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="620" y="210" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  
+  <!-- Third Row Windows -->
+  <rect x="170" y="260" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="200" y="260" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="230" y="260" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="260" y="260" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="290" y="260" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="320" y="260" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="380" y="260" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="410" y="260" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="440" y="260" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="470" y="260" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="500" y="260" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="530" y="260" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="560" y="260" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="590" y="260" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="620" y="260" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  
+  <!-- Fourth Row Windows -->
+  <rect x="170" y="310" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="200" y="310" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="230" y="310" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="260" y="310" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="290" y="310" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="320" y="310" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="380" y="310" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="410" y="310" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="440" y="310" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="470" y="310" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="500" y="310" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="530" y="310" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="560" y="310" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="590" y="310" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="620" y="310" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  
+  <!-- Fifth Row Windows -->
+  <rect x="170" y="360" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="200" y="360" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="230" y="360" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="260" y="360" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="290" y="360" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="320" y="360" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="380" y="360" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="410" y="360" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="440" y="360" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="470" y="360" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="500" y="360" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="530" y="360" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="560" y="360" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="590" y="360" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  <rect x="620" y="360" width="20" height="30" fill="#87CEEB" stroke="#0057B8" stroke-width="1"/>
+  
+  <!-- Palm Trees -->
+  <ellipse cx="40" cy="430" rx="12" ry="60" fill="#8B4513"/>
+  <circle cx="40" cy="370" r="30" fill="#228B22"/>
+  <ellipse cx="760" cy="430" rx="12" ry="60" fill="#8B4513"/>
+  <circle cx="760" cy="370" r="30" fill="#228B22"/>
+  
+  <!-- Sun -->
+  <circle cx="650" cy="80" r="40" fill="#FFD700"/>
+  
+  <!-- Hotel Name -->
+  <text x="400" y="540" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle" fill="#0057B8">CONCORDE EL SALAM</text>
+  <text x="400" y="560" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle" fill="#0057B8">SHARM EL SHEIKH FRONT HOTEL</text>
+  <text x="400" y="580" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" fill="#0057B8">Beachfront Luxury Resort</text>
+</svg>
