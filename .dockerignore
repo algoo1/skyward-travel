@@ -1,0 +1,13 @@
+# Exclude dev and VCS artifacts from Docker image
+.git
+.gitignore
+.cfignore
+node_modules/
+.DS_Store
+Thumbs.db
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Exclude local test server files or temp
+temp*
